@@ -1,16 +1,12 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Stack, router } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
+
+import supabase from "./supabaseClient";
 
 import "../global.css";
 
@@ -19,6 +15,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  const [userLoaded, setUserLoaded] = useState(false);
   const [loaded] = useFonts({
     "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
     "Poppins-Medium": require("../assets/fonts/Poppins-Medium.ttf"),
@@ -32,21 +29,46 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
+    const checkUser = async () => {
+      let session = await supabase.auth.getSession();
+      if (session.error || session === null) {
+        setUserLoaded(false);
+        return;
+      }
+
+      if (session.data.session === null) {
+        setUserLoaded(false);
+        return;
+      }
+
+      setUserLoaded(true);
+    };
+
+    checkUser();
+  }, []);
+
+  useEffect(() => {
+    SplashScreen.hideAsync();
+    setTimeout(() => {
+      if (userLoaded) {
+        router.push("/(tabs)/home");
+      } else {
+        router.push("/(auth)/sign-in");
+      }
+    }, 4000);
+  }, [userLoaded]);
 
   if (!loaded) {
     return null;
   }
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+    <>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    </>
   );
 }

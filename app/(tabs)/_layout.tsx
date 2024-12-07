@@ -7,6 +7,7 @@ import Home from "./home";
 import Icons from "@/constants/Icons";
 import Profile from "./profile";
 import Events from "./events";
+import CreateEvent from "../(event)/create-event";
 
 const Tab = createBottomTabNavigator();
 
@@ -43,6 +44,19 @@ const TabsLayout = () => {
         }}
       />
       <Tab.Screen
+        name="New Event"
+        component={CreateEvent}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View className="items-center justify-center h-full w-[80px]">
+                <Image source={Icons.addIcon}></Image>
+              </View>
+            );
+          },
+        }}
+      />
+      <Tab.Screen
         name="Events"
         component={Events}
         options={{
@@ -56,26 +70,6 @@ const TabsLayout = () => {
                   }`}
                 >
                   Events
-                </Text>
-              </View>
-            );
-          },
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarIcon: ({ focused }) => {
-            return (
-              <View className="items-center justify-start h-full w-[80px]">
-                <Image source={Icons.profileIcon}></Image>
-                <Text
-                  className={`font-psemibold text-xs ${
-                    focused ? "text-primary" : ""
-                  }`}
-                >
-                  Profile
                 </Text>
               </View>
             );

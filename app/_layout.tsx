@@ -9,6 +9,7 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import supabase from "./supabaseClient";
 
 import "../global.css";
+import { GlobalStateProvider } from "./GlobalState";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -63,12 +64,12 @@ export default function RootLayout() {
   }
 
   return (
-    <>
+    <GlobalStateProvider>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
-    </>
+    </GlobalStateProvider>
   );
 }

@@ -12,14 +12,14 @@ const InputField = ({
   placeHolder: string;
   prefixIcon: any;
   onChange: (text: string) => void;
-  value: string;
+  value: any;
   type: InputType;
   otherStyles?: string;
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <View
-      className={`flex-row h-16 w-full items-center px-4 rounded-2xl border-secondary border-[1px] ${otherStyles}`}
+      className={`flex-row h-16 w-full items-center px-4 rounded-2xl border-secondary border-[1px] ${otherStyles} bg-white`}
     >
       <Image
         source={prefixIcon}
@@ -27,6 +27,13 @@ const InputField = ({
         resizeMode="contain"
       ></Image>
       <TextInput
+        keyboardType={
+          type === InputType.Email
+            ? "email-address"
+            : type === InputType.Number
+            ? "numeric"
+            : "default"
+        }
         onChangeText={onChange}
         placeholder={placeHolder}
         placeholderTextColor={"#747688"}

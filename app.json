@@ -10,7 +10,10 @@
     "ios": {
       "supportsTablet": true
     },
-    "android": {},
+    "android": {
+      "paclage": "com.waut6.event-tracker",
+      "package": "com.waut6.eventtracker"
+    },
     "web": {
       "bundler": "metro",
       "output": "static"
@@ -29,6 +32,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "3e24d764-8557-4e99-bb66-1ee3d2e2644f"
+      }
     }
   }
 }

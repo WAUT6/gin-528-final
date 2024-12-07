@@ -9,6 +9,7 @@ module.exports = {
         primary: "#5669FF",
         secondary: "#747688",
         tertiary: "#120D26",
+        primaryDark: "#4A43EC",
       },
       fontFamily: {
         pthin: ["Poppins-Thin", "sans-serif"],
